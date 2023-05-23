@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/Timnit Gebru/AI.html",
       "/posts/Project/ProjectBlogPost.html",
       "/posts/LogisticRegression/index.html",
       "/posts/Linear Regression/index.html",
