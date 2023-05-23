@@ -47,7 +47,7 @@ class LogisticRegression:
                 
                 z = np.dot(xsub, self.w)
                 h = self.sigmoid(z)
-                gradient = np.dot(xsub.T, (h - ysub)) / batch_size
+                gradient = np.dot(xsub.T, (h - ysub)) / ysub.size
                 self.w -= alpha * gradient
                 
                 loss = (-ysub * np.log(h) - (1 - ysub) * np.log(1 - h)).mean()
