@@ -1,5 +1,5 @@
 ---
-title: "About"
+title: "About me"
 image: profile.jpg
 about:
   template: jolla
@@ -15,5 +15,5 @@ about:
       href: https://github.com
 
 ---
+Reach out to me on platforms below!
 
-About this blog

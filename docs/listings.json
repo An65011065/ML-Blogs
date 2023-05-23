@@ -2,6 +2,12 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/Linear Regression/index.html",
+      "/posts/Unsupervised Learning with Linear ALgebra/index.html",
+      "/posts/Dr. Timnit Gebru/Blog on Dr.Gebru.html",
+      "/posts/Auditing Allocative Bias/allocative_bias.html",
+      "/posts/Penguins/index.html",
+      "/posts/Perceptron/index.html",
       "/posts/example-blog-post/index.html"
     ]
   }
