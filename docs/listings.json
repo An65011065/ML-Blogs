@@ -2,10 +2,10 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/Project/ProjectBlogPost.html",
       "/posts/LogisticRegression/index.html",
       "/posts/Linear Regression/index.html",
       "/posts/Unsupervised Learning with Linear ALgebra/index.html",
-      "/posts/Project/ProjectBlogPost.html",
       "/posts/Dr. Timnit Gebru/Blog on Dr.Gebru.html",
       "/posts/Auditing Allocative Bias/allocative_bias.html",
       "/posts/Penguins/index.html",
