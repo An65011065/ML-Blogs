@@ -3,9 +3,9 @@
     "listing": "/index.html",
     "items": [
       "/posts/Image Compressions/index.html",
-      "/posts/Unsupervised Learning with Linear ALgebra/index.html",
-      "/posts/Project/ProjectBlogPost.html",
       "/posts/Auditing Allocative Bias/allocative_bias.html",
+      "/posts/Project/ProjectBlogPost.html",
+      "/posts/Unsupervised Learning with Linear ALgebra/index.html",
       "/posts/Penguins/index.html",
       "/posts/Timnit Gebru/AI.html",
       "/posts/LogisticRegression/index.html",
