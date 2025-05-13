@@ -1,0 +1,65 @@
+$primary: #34495e; // Dark slate blue
+$secondary: #7f8c8d;
+$body-color: #333; // Dark gray for text
+$headings-color: #2c3e50; // Slightly darker blue for headings
+$link-color: #3498db; // Nice blue for links
+
+// Typography
+$font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+$font-family-serif: "Georgia", "Times New Roman", serif;
+$headings-font-family: "Inter", sans-serif;
+$headings-font-weight: 600;
+
+/*-- scss:rules --*/
+// Remove banner
+.quarto-title-banner {
+    display: none;
+}
+
+// Nicer headers
+h1,
+h2,
+h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+// Blog listing cards
+.quarto-grid-item {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.quarto-grid-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+// Card titles
+.listing-title {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+// Card images
+.listing-image img {
+    object-fit: cover;
+    height: 200px;
+    width: 100%;
+}
+
+// Welcome section styling
+.welcome-section {
+    padding: 3rem 0;
+    border-radius: 8px;
+}
+
+.welcome-section h2 {
+    font-weight: 700;
+}

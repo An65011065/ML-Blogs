@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Anweshan Adhikari">
-<meta name="dcterms.date" content="2023-05-22">
 <meta name="description" content="Reconstructing an image using Singular Value Decomposition (SVD)">
 
 <title>Anweshan’s Blog - Unsupervised Learning with Linear Algebra</title>
@@ -124,20 +123,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
-<style>
-    .quarto-title-block .quarto-title-banner {
-      color: white;
-background-image: url(../../img/landscape.png);
-background-size: cover;
-    }
-    </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -173,47 +168,52 @@ background-size: cover;
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">Unsupervised Learning with Linear Algebra</h1>
-                  <div>
-        <div class="description">
-          Reconstructing an image using Singular Value Decomposition (SVD)
-        </div>
-      </div>
-                </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta">
-
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p>Anweshan Adhikari </p>
-            </div>
-    </div>
-      
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">May 22, 2023</p>
-      </div>
-    </div>
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#converting-image-to-grayscale" id="toc-converting-image-to-grayscale" class="nav-link" data-scroll-target="#converting-image-to-grayscale">Converting image to Grayscale</a></li>
+  <li><a href="#svd-implementation" id="toc-svd-implementation" class="nav-link" data-scroll-target="#svd-implementation">SVD Implementation</a></li>
+  <li><a href="#experimentation" id="toc-experimentation" class="nav-link" data-scroll-target="#experimentation">Experimentation</a></li>
+  <li><a href="#optional-extras" id="toc-optional-extras" class="nav-link" data-scroll-target="#optional-extras">Optional Extras:</a></li>
+  <li><a href="#final-remarks" id="toc-final-remarks" class="nav-link" data-scroll-target="#final-remarks">Final Remarks</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Unsupervised Learning with Linear Algebra</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
+</div>
+
+<div>
+  <div class="description">
+    Reconstructing an image using Singular Value Decomposition (SVD)
+  </div>
+</div>
 
 
+<div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Anweshan Adhikari </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
@@ -225,31 +225,34 @@ background-size: cover;
 <h1>Converting image to Grayscale</h1>
 <p>Here I have chosen a RGB colored image of Mario and converted it to a grayscale image using the PIL package.</p>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> read_image(url):</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array(Image.<span class="bu">open</span>(urllib.request.urlopen(url)))</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/6b51c512-9408-4f6c-9b9d-8bbddbafe45c/dfx6346-aa22997e-3fac-4663-88e8-581060c0dcf0.png/v1/fill/w_988,h_809/gcn_mario_kick__rgb__by_giltchyboi64_dfx6346-pre.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTE5IiwicGF0aCI6IlwvZlwvNmI1MWM1MTItOTQwOC00ZjZjLTliOWQtOGJiZGRiYWZlNDVjXC9kZng2MzQ2LWFhMjI5OTdlLTNmYWMtNDY2My04OGU4LTU4MTA2MGMwZGNmMC5wbmciLCJ3aWR0aCI6Ijw9MTEyMyJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.Vb9e3dCybP27DsdJD3yf2MYC_M0MCm1B69gb9Wp0C-0"</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> read_image(url)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>fig, axarr <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">3</span>))</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> to_greyscale(im):</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> np.dot(im[..., :<span class="dv">3</span>], [<span class="fl">0.2989</span>, <span class="fl">0.5870</span>, <span class="fl">0.1140</span>])</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>grey_img <span class="op">=</span> to_greyscale(img)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">0</span>].imshow(img)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">0</span>].axis(<span class="st">"off"</span>)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">0</span>].<span class="bu">set</span>(title<span class="op">=</span><span class="st">"original"</span>)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">1</span>].imshow(grey_img, cmap<span class="op">=</span><span class="st">"Greys"</span>)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">1</span>].axis(<span class="st">"off"</span>)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">1</span>].<span class="bu">set</span>(title<span class="op">=</span><span class="st">"greyscale"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt </span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> urllib</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">def</span> read_image(url):</span>
+<span id="cb1-7"><a href="#cb1-7"></a>    <span class="cf">return</span> np.array(Image.<span class="bu">open</span>(urllib.request.urlopen(url)))</span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a>url <span class="op">=</span> <span class="st">"https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/6b51c512-9408-4f6c-9b9d-8bbddbafe45c/dfx6346-aa22997e-3fac-4663-88e8-581060c0dcf0.png/v1/fill/w_988,h_809/gcn_mario_kick__rgb__by_giltchyboi64_dfx6346-pre.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTE5IiwicGF0aCI6IlwvZlwvNmI1MWM1MTItOTQwOC00ZjZjLTliOWQtOGJiZGRiYWZlNDVjXC9kZng2MzQ2LWFhMjI5OTdlLTNmYWMtNDY2My04OGU4LTU4MTA2MGMwZGNmMC5wbmciLCJ3aWR0aCI6Ijw9MTEyMyJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.Vb9e3dCybP27DsdJD3yf2MYC_M0MCm1B69gb9Wp0C-0"</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>img <span class="op">=</span> read_image(url)</span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a>fig, axarr <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">3</span>))</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a><span class="kw">def</span> to_greyscale(im):</span>
+<span id="cb1-15"><a href="#cb1-15"></a>    <span class="cf">return</span> <span class="dv">1</span> <span class="op">-</span> np.dot(im[..., :<span class="dv">3</span>], [<span class="fl">0.2989</span>, <span class="fl">0.5870</span>, <span class="fl">0.1140</span>])</span>
+<span id="cb1-16"><a href="#cb1-16"></a></span>
+<span id="cb1-17"><a href="#cb1-17"></a>grey_img <span class="op">=</span> to_greyscale(img)</span>
+<span id="cb1-18"><a href="#cb1-18"></a></span>
+<span id="cb1-19"><a href="#cb1-19"></a>axarr[<span class="dv">0</span>].imshow(img)</span>
+<span id="cb1-20"><a href="#cb1-20"></a>axarr[<span class="dv">0</span>].axis(<span class="st">"off"</span>)</span>
+<span id="cb1-21"><a href="#cb1-21"></a>axarr[<span class="dv">0</span>].<span class="bu">set</span>(title<span class="op">=</span><span class="st">"original"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22"></a></span>
+<span id="cb1-23"><a href="#cb1-23"></a>axarr[<span class="dv">1</span>].imshow(grey_img, cmap<span class="op">=</span><span class="st">"Greys"</span>)</span>
+<span id="cb1-24"><a href="#cb1-24"></a>axarr[<span class="dv">1</span>].axis(<span class="st">"off"</span>)</span>
+<span id="cb1-25"><a href="#cb1-25"></a>axarr[<span class="dv">1</span>].<span class="bu">set</span>(title<span class="op">=</span><span class="st">"greyscale"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>[Text(0.5, 1.0, 'greyscale')]</code></pre>
 </div>
@@ -258,17 +261,23 @@ background-size: cover;
 </div>
 </div>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt </span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="im">import</span> urllib</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>Let’s look at the shapes of the original image and grayscale image:</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a<span class="op">=</span>np.shape(img)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>b<span class="op">=</span>np.shape (grey_img)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Shape of original image: </span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Shape of original image: </span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>a<span class="op">=</span>np.shape(img)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>b<span class="op">=</span>np.shape (grey_img)</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="bu">print</span>(<span class="ss">f"Shape of original image: </span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="bu">print</span>(<span class="ss">f"Shape of original image: </span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Shape of original image: (809, 988, 4)
 Shape of original image: (809, 988)</code></pre>
@@ -279,38 +288,44 @@ Shape of original image: (809, 988)</code></pre>
 <section id="svd-implementation" class="level1">
 <h1>SVD Implementation</h1>
 <div class="cell" data-execution_count="33">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> svd_reconstruct(image, k):</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Performing SVD</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    U, s, V <span class="op">=</span> np.linalg.svd(image, full_matrices<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    D <span class="op">=</span> np.zeros(image.shape)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    np.fill_diagonal(D, s)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Selecting</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    D_k <span class="op">=</span> D[:k, :k]</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    U_k <span class="op">=</span> U[:, :k]</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    V_k <span class="op">=</span> V[:k, :]</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Reconstructing our image</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    reconst_img <span class="op">=</span> U_k <span class="op">@</span> D_k <span class="op">@</span> V_k</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> reconst_img</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">def</span> svd_reconstruct(image, k):</span>
+<span id="cb6-2"><a href="#cb6-2"></a>    <span class="co"># Performing SVD</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>    U, s, V <span class="op">=</span> np.linalg.svd(image, full_matrices<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-4"><a href="#cb6-4"></a>    D <span class="op">=</span> np.zeros(image.shape)</span>
+<span id="cb6-5"><a href="#cb6-5"></a>    np.fill_diagonal(D, s)</span>
+<span id="cb6-6"><a href="#cb6-6"></a>    </span>
+<span id="cb6-7"><a href="#cb6-7"></a>    <span class="co"># Selecting</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a>    D_k <span class="op">=</span> D[:k, :k]</span>
+<span id="cb6-9"><a href="#cb6-9"></a>    U_k <span class="op">=</span> U[:, :k]</span>
+<span id="cb6-10"><a href="#cb6-10"></a>    V_k <span class="op">=</span> V[:k, :]</span>
+<span id="cb6-11"><a href="#cb6-11"></a></span>
+<span id="cb6-12"><a href="#cb6-12"></a>    <span class="co"># Reconstructing our image</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a>    reconst_img <span class="op">=</span> U_k <span class="op">@</span> D_k <span class="op">@</span> V_k</span>
+<span id="cb6-14"><a href="#cb6-14"></a>    </span>
+<span id="cb6-15"><a href="#cb6-15"></a>    <span class="cf">return</span> reconst_img</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="cell" data-execution_count="34">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">50</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>reconst_img <span class="op">=</span> svd_reconstruct(grey_img, k)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>fig, axarr <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">0</span>].imshow(grey_img, cmap<span class="op">=</span><span class="st">'Greys'</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">0</span>].axis(<span class="st">'off'</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">0</span>].set_title(<span class="st">'Original Image'</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#reconstructing image using 50 singular values</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">1</span>].imshow(reconst_img, cmap<span class="op">=</span><span class="st">'Greys'</span>)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">1</span>].axis(<span class="st">'off'</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">1</span>].set_title(<span class="st">'Reconstructed Image with k = '</span> <span class="op">+</span> <span class="bu">str</span>(k))</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>k <span class="op">=</span> <span class="dv">50</span> </span>
+<span id="cb7-2"><a href="#cb7-2"></a>reconst_img <span class="op">=</span> svd_reconstruct(grey_img, k)</span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a>fig, axarr <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a>axarr[<span class="dv">0</span>].imshow(grey_img, cmap<span class="op">=</span><span class="st">'Greys'</span>)</span>
+<span id="cb7-7"><a href="#cb7-7"></a>axarr[<span class="dv">0</span>].axis(<span class="st">'off'</span>)</span>
+<span id="cb7-8"><a href="#cb7-8"></a>axarr[<span class="dv">0</span>].set_title(<span class="st">'Original Image'</span>)</span>
+<span id="cb7-9"><a href="#cb7-9"></a></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#reconstructing image using 50 singular values</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a>axarr[<span class="dv">1</span>].imshow(reconst_img, cmap<span class="op">=</span><span class="st">'Greys'</span>)</span>
+<span id="cb7-12"><a href="#cb7-12"></a>axarr[<span class="dv">1</span>].axis(<span class="st">'off'</span>)</span>
+<span id="cb7-13"><a href="#cb7-13"></a>axarr[<span class="dv">1</span>].set_title(<span class="st">'Reconstructed Image with k = '</span> <span class="op">+</span> <span class="bu">str</span>(k))</span>
+<span id="cb7-14"><a href="#cb7-14"></a></span>
+<span id="cb7-15"><a href="#cb7-15"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
 </div>
@@ -322,36 +337,39 @@ Shape of original image: (809, 988)</code></pre>
 <p>By setting k to 50, we are saying that we want to reconstruct our image using only the top 50 most important features. This compresses the image because fewer features are used to construct the image.</p>
 <p>As k increases, the reconstructed image will become more and more similar to the original because more features are used in the reconstruction. Oppositely, As k decreases, less information is used in the reconstruction, and the image becomes more and more compressed. We can see this in the graph below</p>
 <div class="cell" data-execution_count="36">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> storage_percentage(original, k):</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (k <span class="op">*</span> (original.shape[<span class="dv">0</span>] <span class="op">+</span> original.shape[<span class="dv">1</span>]) <span class="op">+</span> k) <span class="op">/</span> (original.shape[<span class="dv">0</span>] <span class="op">*</span> original.shape[<span class="dv">1</span>]) <span class="op">*</span> <span class="dv">100</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating the subplots</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>fig, axarr <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">10</span>))</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#original iamge</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">0</span>, <span class="dv">0</span>].imshow(grey_img, cmap<span class="op">=</span><span class="st">"Greys"</span>)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">0</span>, <span class="dv">0</span>].axis(<span class="st">"off"</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">"Original Image</span><span class="ch">\n</span><span class="st">100% Storage"</span>)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#no. of features</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>k_values <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">5</span>, <span class="dv">25</span>, <span class="dv">50</span>,<span class="dv">100</span>, <span class="dv">175</span>, <span class="dv">250</span>]</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, k <span class="kw">in</span> <span class="bu">enumerate</span>(k_values, start<span class="op">=</span><span class="dv">1</span>):</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Reconstructing the image</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    reconst_img <span class="op">=</span> svd_reconstruct(grey_img, k)</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    row <span class="op">=</span> i <span class="op">//</span> <span class="dv">4</span></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    col <span class="op">=</span> i <span class="op">%</span> <span class="dv">4</span></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    axarr[row, col].imshow(reconst_img, cmap<span class="op">=</span><span class="st">"Greys"</span>)</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    axarr[row, col].axis(<span class="st">"off"</span>)</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    axarr[row, col].set_title(<span class="ss">f"Reconstructed Image</span><span class="ch">\n</span><span class="ss"> k = </span><span class="sc">{</span>k<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>storage_percentage(grey_img, k)<span class="sc">:.2f}</span><span class="ss">% Storage"</span>)</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">def</span> storage_percentage(original, k):</span>
+<span id="cb8-4"><a href="#cb8-4"></a>    <span class="cf">return</span> (k <span class="op">*</span> (original.shape[<span class="dv">0</span>] <span class="op">+</span> original.shape[<span class="dv">1</span>]) <span class="op">+</span> k) <span class="op">/</span> (original.shape[<span class="dv">0</span>] <span class="op">*</span> original.shape[<span class="dv">1</span>]) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="co"># Creating the subplots</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a>fig, axarr <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">10</span>))</span>
+<span id="cb8-8"><a href="#cb8-8"></a></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co">#original iamge</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a>axarr[<span class="dv">0</span>, <span class="dv">0</span>].imshow(grey_img, cmap<span class="op">=</span><span class="st">"Greys"</span>)</span>
+<span id="cb8-11"><a href="#cb8-11"></a>axarr[<span class="dv">0</span>, <span class="dv">0</span>].axis(<span class="st">"off"</span>)</span>
+<span id="cb8-12"><a href="#cb8-12"></a>axarr[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">"Original Image</span><span class="ch">\n</span><span class="st">100% Storage"</span>)</span>
+<span id="cb8-13"><a href="#cb8-13"></a></span>
+<span id="cb8-14"><a href="#cb8-14"></a><span class="co">#no. of features</span></span>
+<span id="cb8-15"><a href="#cb8-15"></a>k_values <span class="op">=</span> [<span class="dv">1</span>,<span class="dv">5</span>, <span class="dv">25</span>, <span class="dv">50</span>,<span class="dv">100</span>, <span class="dv">175</span>, <span class="dv">250</span>]</span>
+<span id="cb8-16"><a href="#cb8-16"></a></span>
+<span id="cb8-17"><a href="#cb8-17"></a></span>
+<span id="cb8-18"><a href="#cb8-18"></a><span class="cf">for</span> i, k <span class="kw">in</span> <span class="bu">enumerate</span>(k_values, start<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb8-19"><a href="#cb8-19"></a>    <span class="co"># Reconstructing the image</span></span>
+<span id="cb8-20"><a href="#cb8-20"></a>    reconst_img <span class="op">=</span> svd_reconstruct(grey_img, k)</span>
+<span id="cb8-21"><a href="#cb8-21"></a></span>
+<span id="cb8-22"><a href="#cb8-22"></a>    row <span class="op">=</span> i <span class="op">//</span> <span class="dv">4</span></span>
+<span id="cb8-23"><a href="#cb8-23"></a>    col <span class="op">=</span> i <span class="op">%</span> <span class="dv">4</span></span>
+<span id="cb8-24"><a href="#cb8-24"></a></span>
+<span id="cb8-25"><a href="#cb8-25"></a>    axarr[row, col].imshow(reconst_img, cmap<span class="op">=</span><span class="st">"Greys"</span>)</span>
+<span id="cb8-26"><a href="#cb8-26"></a>    axarr[row, col].axis(<span class="st">"off"</span>)</span>
+<span id="cb8-27"><a href="#cb8-27"></a>    axarr[row, col].set_title(<span class="ss">f"Reconstructed Image</span><span class="ch">\n</span><span class="ss"> k = </span><span class="sc">{</span>k<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>storage_percentage(grey_img, k)<span class="sc">:.2f}</span><span class="ss">% Storage"</span>)</span>
+<span id="cb8-28"><a href="#cb8-28"></a></span>
+<span id="cb8-29"><a href="#cb8-29"></a>plt.tight_layout()</span>
+<span id="cb8-30"><a href="#cb8-30"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
 </div>
@@ -362,33 +380,39 @@ Shape of original image: (809, 988)</code></pre>
 <h1>Optional Extras:</h1>
 <p>The compression factor is the percentage of singular values retained in the reconstruction. For example, a compression factor of 0.50 would mean retaining 50% of the original singular values. In the code below, we modified our svd_reconstruct method for users to specify a desired compression factor and select the number of components k to use based on this selection. I have demonstrated an example with a compression factor of 0.08</p>
 <div class="cell" data-execution_count="70">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> no_of_features(compression_factor, img):</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    height, width <span class="op">=</span> img.shape</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    original_storage <span class="op">=</span> height <span class="op">*</span> width</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    target_storage <span class="op">=</span> compression_factor <span class="op">*</span> original_storage</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> target_storage <span class="op">/</span> (height <span class="op">+</span> width <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">round</span>(k)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>compression_factor <span class="op">=</span> <span class="fl">0.08</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>reconst_img <span class="op">=</span> svd_reconstruct(grey_img, no_of_features(compression_factor, grey_img))</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">def</span> no_of_features(compression_factor, img):</span>
+<span id="cb9-2"><a href="#cb9-2"></a>    height, width <span class="op">=</span> img.shape</span>
+<span id="cb9-3"><a href="#cb9-3"></a>    original_storage <span class="op">=</span> height <span class="op">*</span> width</span>
+<span id="cb9-4"><a href="#cb9-4"></a>    target_storage <span class="op">=</span> compression_factor <span class="op">*</span> original_storage</span>
+<span id="cb9-5"><a href="#cb9-5"></a>    k <span class="op">=</span> target_storage <span class="op">/</span> (height <span class="op">+</span> width <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb9-6"><a href="#cb9-6"></a>    <span class="cf">return</span> <span class="bu">round</span>(k)</span>
+<span id="cb9-7"><a href="#cb9-7"></a></span>
+<span id="cb9-8"><a href="#cb9-8"></a>compression_factor <span class="op">=</span> <span class="fl">0.08</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a>reconst_img <span class="op">=</span> svd_reconstruct(grey_img, no_of_features(compression_factor, grey_img))</span>
+<span id="cb9-10"><a href="#cb9-10"></a></span>
+<span id="cb9-11"><a href="#cb9-11"></a></span>
+<span id="cb9-12"><a href="#cb9-12"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="cell" data-execution_count="72">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating subplots</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fig, axarr <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">0</span>].imshow(grey_img, cmap<span class="op">=</span><span class="st">'Greys'</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">0</span>].axis(<span class="st">'off'</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">0</span>].<span class="bu">set</span>(title<span class="op">=</span><span class="st">'Original Image'</span>)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">1</span>].imshow(reconst_img, cmap<span class="op">=</span><span class="st">'Greys'</span>)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">1</span>].axis(<span class="st">'off'</span>)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>axarr[<span class="dv">1</span>].<span class="bu">set</span>(title<span class="op">=</span><span class="ss">f'Reconstructed Image</span><span class="ch">\n</span><span class="ss"> k = </span><span class="sc">{</span>no_of_features(compression_factor, grey_img)<span class="sc">}</span><span class="ch">\n</span><span class="ss"> compression_factor= </span><span class="sc">{</span>compression_factor<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Creating subplots</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>fig, axarr <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a>axarr[<span class="dv">0</span>].imshow(grey_img, cmap<span class="op">=</span><span class="st">'Greys'</span>)</span>
+<span id="cb10-5"><a href="#cb10-5"></a>axarr[<span class="dv">0</span>].axis(<span class="st">'off'</span>)</span>
+<span id="cb10-6"><a href="#cb10-6"></a>axarr[<span class="dv">0</span>].<span class="bu">set</span>(title<span class="op">=</span><span class="st">'Original Image'</span>)</span>
+<span id="cb10-7"><a href="#cb10-7"></a></span>
+<span id="cb10-8"><a href="#cb10-8"></a>axarr[<span class="dv">1</span>].imshow(reconst_img, cmap<span class="op">=</span><span class="st">'Greys'</span>)</span>
+<span id="cb10-9"><a href="#cb10-9"></a>axarr[<span class="dv">1</span>].axis(<span class="st">'off'</span>)</span>
+<span id="cb10-10"><a href="#cb10-10"></a>axarr[<span class="dv">1</span>].<span class="bu">set</span>(title<span class="op">=</span><span class="ss">f'Reconstructed Image</span><span class="ch">\n</span><span class="ss"> k = </span><span class="sc">{</span>no_of_features(compression_factor, grey_img)<span class="sc">}</span><span class="ch">\n</span><span class="ss"> compression_factor= </span><span class="sc">{</span>compression_factor<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb10-11"><a href="#cb10-11"></a>plt.tight_layout()</span>
+<span id="cb10-12"><a href="#cb10-12"></a>plt.show()</span>
+<span id="cb10-13"><a href="#cb10-13"></a><span class="co">#</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
@@ -450,6 +474,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
   function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
@@ -501,6 +576,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© 2023 Anweshan Adhikari</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
 
 
 

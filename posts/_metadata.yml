@@ -1,0 +1,12 @@
+# Options specified here will apply to all posts
+title-block-banner: false # Disable banner
+author: "Anweshan Adhikari"
+date-format: "MMMM D, YYYY"
+format:
+    html:
+        code-fold: show
+        code-tools: true
+        code-copy: true
+        code-line-numbers: true
+        toc: true
+        toc-depth: 3

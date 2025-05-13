@@ -7,10 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Anweshan Adhikari">
-<meta name="dcterms.date" content="2023-04-09">
 <meta name="description" content="Maximizing Penguin Classification Accuracy with Minimal Features">
 
-<title>Anweshan’s Blog - Classifying Palmer Penguins</title>
+<title>Anweshan’s Blog - Finding the Perfect Predictors</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -124,22 +123,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
-<style>
-    .quarto-title-block .quarto-title-banner {
-      color: white;
-background-image: url(../../img/landscape.png);
-background-size: cover;
-    }
-    </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -175,59 +170,63 @@ background-size: cover;
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">Classifying Palmer Penguins</h1>
-                  <div>
-        <div class="description">
-          Maximizing Penguin Classification Accuracy with Minimal Features
-        </div>
-      </div>
-                </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta">
-
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p>Anweshan Adhikari </p>
-            </div>
-    </div>
-      
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">April 9, 2023</p>
-      </div>
-    </div>
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-the-data-set" id="toc-introduction-to-the-data-set" class="nav-link active" data-scroll-target="#introduction-to-the-data-set">Introduction to the Data Set</a></li>
+  <li><a href="#data-cleaning-and-preparation" id="toc-data-cleaning-and-preparation" class="nav-link" data-scroll-target="#data-cleaning-and-preparation">Data Cleaning and Preparation</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Finding the Perfect Predictors</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
+</div>
+
+<div>
+  <div class="description">
+    Maximizing Penguin Classification Accuracy with Minimal Features
+  </div>
+</div>
 
 
+<div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Anweshan Adhikari </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
 
 <section id="introduction-to-the-data-set" class="level1">
 <h1>Introduction to the Data Set</h1>
 <p>The Palmer’s Penguin dataset collected by Dr.&nbsp;Kristen Gorman and the Palmer Station, Antarctica LTER, includes physical measurements of individuals from three different penguin species: Chinstram, Gentoo and Adelie. Some of the features in included culmen length, culmen depth, mass body, flipper length and so on. In this blog posts, we will try to find a group of three features that will achieve maximum accuracy for linear regression, K-nearest Neighbour Classifier, Random Forest Classifier and decision tree classifiers.</p>
 <p>Before we get into finding the features, let’s start by exploring our dataset. The table shown below shows the glimpse of our data.</p>
 <div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>train_url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/middlebury-csci-0451/CSCI-0451/main/data/palmer-penguins/train.csv"</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.read_csv(train_url)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a>train_url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/middlebury-csci-0451/CSCI-0451/main/data/palmer-penguins/train.csv"</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>train <span class="op">=</span> pd.read_csv(train_url)</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="11">
 
 <div>
@@ -363,11 +362,14 @@ background-size: cover;
 </div>
 <p>Continuing the exploration, the graph below shows the distribution of Culmen Lengths for each penguin species</p>
 <div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the distribution of Culmen Lengths for each penguin species</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>train, x<span class="op">=</span><span class="st">"Culmen Length (mm)"</span>, hue<span class="op">=</span><span class="st">"Species"</span>, kde<span class="op">=</span><span class="va">True</span>, bins<span class="op">=</span><span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co"># Plot the distribution of Culmen Lengths for each penguin species</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>sns.histplot(data<span class="op">=</span>train, x<span class="op">=</span><span class="st">"Culmen Length (mm)"</span>, hue<span class="op">=</span><span class="st">"Species"</span>, kde<span class="op">=</span><span class="va">True</span>, bins<span class="op">=</span><span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>&lt;AxesSubplot: xlabel='Culmen Length (mm)', ylabel='Count'&gt;</code></pre>
 </div>
@@ -378,11 +380,14 @@ background-size: cover;
 <p>The histogram plot shows the distribution of culmen length for three different Penguins’ species: Adelie, Chinstrap, and Gentoo. The x-axis represents the culmen length values, and the y-axis represents the count of penguins falling into each bin, where each bin size is specified to 15. From the plot, we can see that Gentoo and Chinstrap penguins have a similar distribution of culmen length, with a peak around 45-50 mm, while Gentoo penguins have smaller culmen length, ranging from around 30mm-46mm with a peak around 40 mm. The histogram also shows the shape of the data distribution for each penguin species, with overlaid smooth curves that represent the density estimate. This helps to identify any overlapping areas or differences in the tails of the distributions. Based on the culmen lengths, it would be possible to distinguish between Adelie Penguins from the other two species with a high accuracy. However, the accuracy would be minimal in distinguishing between Chinstrap Penguin and Gentoo Penguin based on their culmen range, as both species have similar culmen lengths.</p>
 <p>Similarly, the table offers a convenient way to compare the physical attributes of the penguin species.</p>
 <div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>penguin_stats <span class="op">=</span> train.groupby(<span class="st">"Species"</span>).aggregate({<span class="st">"Body Mass (g)"</span>: <span class="st">"mean"</span>, <span class="st">"Flipper Length (mm)"</span>: <span class="st">"mean"</span>}) <span class="co">#Finiding the mean of body mass and flipper length for each species.</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>penguin_stats <span class="op">=</span> penguin_stats.<span class="bu">round</span>(<span class="dv">0</span>) <span class="co"># Rounding the values to zero decimal place</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>penguin_stats.columns <span class="op">=</span> [<span class="st">"Avg. Body Mass (g)"</span>, <span class="st">"Avg. Flipper Length (mm)"</span>] <span class="co"># Renaming the columns </span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(penguin_stats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>penguin_stats <span class="op">=</span> train.groupby(<span class="st">"Species"</span>).aggregate({<span class="st">"Body Mass (g)"</span>: <span class="st">"mean"</span>, <span class="st">"Flipper Length (mm)"</span>: <span class="st">"mean"</span>}) <span class="co">#Finiding the mean of body mass and flipper length for each species.</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>penguin_stats <span class="op">=</span> penguin_stats.<span class="bu">round</span>(<span class="dv">0</span>) <span class="co"># Rounding the values to zero decimal place</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>penguin_stats.columns <span class="op">=</span> [<span class="st">"Avg. Body Mass (g)"</span>, <span class="st">"Avg. Flipper Length (mm)"</span>] <span class="co"># Renaming the columns </span></span>
+<span id="cb4-4"><a href="#cb4-4"></a></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="bu">print</span>(penguin_stats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                           Avg. Body Mass (g)  \
 Species                                                         
@@ -403,106 +408,112 @@ Gentoo penguin (Pygoscelis papua)                             218.0  </code></pr
 <h1>Data Cleaning and Preparation</h1>
 <p>Below, the Palmer’s penguin dataset is being prepared to serve as the training set for the machine learning models. The code drops irrelevant columns in the dataset, removes rows with missing values, converts target variable, species, into numbers and scales the quantitative features.</p>
 <div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> itertools</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> LabelEncoder, StandardScaler</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>le <span class="op">=</span> LabelEncoder()</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>le.fit(train[<span class="st">"Species"</span>])</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prepare_data(df):</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Drop irrelevant columns</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.drop([<span class="st">"studyName"</span>, <span class="st">"Sample Number"</span>, <span class="st">"Individual ID"</span>, <span class="st">"Date Egg"</span>, <span class="st">"Comments"</span>, <span class="st">"Region"</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Remove rows with missing values and unknown sex</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df[df[<span class="st">"Sex"</span>] <span class="op">!=</span> <span class="st">"."</span>]</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.dropna()</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Encode the target variable</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> le.transform(df[<span class="st">"Species"</span>])</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.drop([<span class="st">"Species"</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># One-hot encode categorical features</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.get_dummies(df)</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Scale the quantitative features</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    scaler <span class="op">=</span> StandardScaler()</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    quant_cols <span class="op">=</span> [<span class="st">'Culmen Length (mm)'</span>, <span class="st">'Culmen Depth (mm)'</span>, <span class="st">'Flipper Length (mm)'</span>, <span class="st">'Body Mass (g)'</span>, <span class="st">'Delta 15 N (o/oo)'</span>, <span class="st">'Delta 13 C (o/oo)'</span>]</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    df[quant_cols] <span class="op">=</span> scaler.fit_transform(df[quant_cols])</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df, y</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>X_train, y_train <span class="op">=</span> prepare_data(train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">import</span> itertools</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> LabelEncoder, StandardScaler</span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_score</span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="im">from</span> sklearn.tree <span class="im">import</span> DecisionTreeClassifier</span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="im">import</span> warnings</span>
+<span id="cb6-8"><a href="#cb6-8"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9"></a></span>
+<span id="cb6-10"><a href="#cb6-10"></a>le <span class="op">=</span> LabelEncoder()</span>
+<span id="cb6-11"><a href="#cb6-11"></a>le.fit(train[<span class="st">"Species"</span>])</span>
+<span id="cb6-12"><a href="#cb6-12"></a></span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="kw">def</span> prepare_data(df):</span>
+<span id="cb6-14"><a href="#cb6-14"></a>    <span class="co"># Drop irrelevant columns</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a>    df <span class="op">=</span> df.drop([<span class="st">"studyName"</span>, <span class="st">"Sample Number"</span>, <span class="st">"Individual ID"</span>, <span class="st">"Date Egg"</span>, <span class="st">"Comments"</span>, <span class="st">"Region"</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-16"><a href="#cb6-16"></a>    <span class="co"># Remove rows with missing values and unknown sex</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a>    df <span class="op">=</span> df[df[<span class="st">"Sex"</span>] <span class="op">!=</span> <span class="st">"."</span>]</span>
+<span id="cb6-18"><a href="#cb6-18"></a>    df <span class="op">=</span> df.dropna()</span>
+<span id="cb6-19"><a href="#cb6-19"></a>    <span class="co"># Encode the target variable</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a>    y <span class="op">=</span> le.transform(df[<span class="st">"Species"</span>])</span>
+<span id="cb6-21"><a href="#cb6-21"></a>    df <span class="op">=</span> df.drop([<span class="st">"Species"</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-22"><a href="#cb6-22"></a>    <span class="co"># One-hot encode categorical features</span></span>
+<span id="cb6-23"><a href="#cb6-23"></a>    df <span class="op">=</span> pd.get_dummies(df)</span>
+<span id="cb6-24"><a href="#cb6-24"></a>    <span class="co"># Scale the quantitative features</span></span>
+<span id="cb6-25"><a href="#cb6-25"></a>    scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb6-26"><a href="#cb6-26"></a>    quant_cols <span class="op">=</span> [<span class="st">'Culmen Length (mm)'</span>, <span class="st">'Culmen Depth (mm)'</span>, <span class="st">'Flipper Length (mm)'</span>, <span class="st">'Body Mass (g)'</span>, <span class="st">'Delta 15 N (o/oo)'</span>, <span class="st">'Delta 13 C (o/oo)'</span>]</span>
+<span id="cb6-27"><a href="#cb6-27"></a>    df[quant_cols] <span class="op">=</span> scaler.fit_transform(df[quant_cols])</span>
+<span id="cb6-28"><a href="#cb6-28"></a>    <span class="cf">return</span> df, y</span>
+<span id="cb6-29"><a href="#cb6-29"></a></span>
+<span id="cb6-30"><a href="#cb6-30"></a>X_train, y_train <span class="op">=</span> prepare_data(train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> combinations</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>all_qual_cols <span class="op">=</span> [<span class="st">'Island'</span>, <span class="st">'Clutch Completion'</span>, <span class="st">'Sex'</span>]</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>all_quant_cols <span class="op">=</span> [<span class="st">'Culmen Length (mm)'</span>, <span class="st">'Culmen Depth (mm)'</span>, <span class="st">'Flipper Length (mm)'</span>, <span class="st">'Body Mass (g)'</span>, <span class="st">'Delta 15 N (o/oo)'</span>, <span class="st">'Delta 13 C (o/oo)'</span>]</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>best_score_LR <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>best_score_KNN<span class="op">=</span><span class="dv">0</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>best_score_RF <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>best_score_DT <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> qual <span class="kw">in</span> all_qual_cols:</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    qual_cols <span class="op">=</span> [col <span class="cf">for</span> col <span class="kw">in</span> X_train.columns <span class="cf">if</span> qual <span class="kw">in</span> col]</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> pair <span class="kw">in</span> combinations(all_quant_cols, <span class="dv">2</span>):</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        cols <span class="op">=</span> <span class="bu">list</span>(pair) <span class="op">+</span> qual_cols</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Training on Logistic Regression</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        LR <span class="op">=</span> LogisticRegression()</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        LR.fit(X_train[cols], y_train)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        lr_score <span class="op">=</span> LR.score(X_train[cols], y_train)</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Updating the best score and columns for Logistic Regression</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> lr_score <span class="op">&gt;</span> best_score_LR:</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>            best_cols_LR <span class="op">=</span> cols</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>            best_score_LR <span class="op">=</span> lr_score</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>            best_LR <span class="op">=</span> LR</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Training on K-nearest Neighbour Classifier</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        KNN <span class="op">=</span> KNeighborsClassifier()</span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        KNN.fit(X_train[cols], y_train)</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>        knn_score <span class="op">=</span> KNN.score(X_train[cols], y_train)</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Updating the best score and columns for k-Nearest Neighbors Classifier</span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> knn_score <span class="op">&gt;</span> best_score_KNN:</span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>            best_cols_KNN <span class="op">=</span> cols</span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>            best_score_KNN <span class="op">=</span> knn_score</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>            best_KNN <span class="op">=</span> KNN</span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Training on Random Forest Classifier</span></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>        RF <span class="op">=</span> RandomForestClassifier(max_depth<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>        RF.fit(X_train[cols], y_train)</span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>        rf_score <span class="op">=</span> RF.score(X_train[cols], y_train)</span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Updating the best score and columns for Random Forest Classifier</span></span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> rf_score <span class="op">&gt;</span> best_score_RF:</span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>            best_cols_RF <span class="op">=</span> cols</span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>            best_score_RF <span class="op">=</span> rf_score</span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>            best_RF <span class="op">=</span> RF</span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Training on Decision Tree Classifier</span></span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>        DT <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>        DT.fit(X_train[cols], y_train)</span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>        dt_score <span class="op">=</span> DT.score(X_train[cols], y_train)</span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Updating the best score and columns for Decision Tree Classifier</span></span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> dt_score <span class="op">&gt;</span> best_score_DT:</span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>            best_cols_DT <span class="op">=</span> cols</span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>            best_score_DT <span class="op">=</span> dt_score</span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>            best_DT <span class="op">=</span> DT</span>
-<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best 3 columns for LR: "</span> <span class="op">+</span> <span class="bu">str</span>(best_cols_LR))</span>
-<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best 3 columns for KNN: "</span> <span class="op">+</span> <span class="bu">str</span>(best_cols_KNN))</span>
-<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best 3 columns for RF: "</span> <span class="op">+</span> <span class="bu">str</span>(best_cols_RF))</span>
-<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best 3 columns for DT: "</span> <span class="op">+</span> <span class="bu">str</span>(best_cols_DT))</span>
-<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">import</span> warnings</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="im">from</span> itertools <span class="im">import</span> combinations</span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6"></a></span>
+<span id="cb7-7"><a href="#cb7-7"></a>all_qual_cols <span class="op">=</span> [<span class="st">'Island'</span>, <span class="st">'Clutch Completion'</span>, <span class="st">'Sex'</span>]</span>
+<span id="cb7-8"><a href="#cb7-8"></a>all_quant_cols <span class="op">=</span> [<span class="st">'Culmen Length (mm)'</span>, <span class="st">'Culmen Depth (mm)'</span>, <span class="st">'Flipper Length (mm)'</span>, <span class="st">'Body Mass (g)'</span>, <span class="st">'Delta 15 N (o/oo)'</span>, <span class="st">'Delta 13 C (o/oo)'</span>]</span>
+<span id="cb7-9"><a href="#cb7-9"></a></span>
+<span id="cb7-10"><a href="#cb7-10"></a>best_score_LR <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a>best_score_KNN<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a>best_score_RF <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a>best_score_DT <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a></span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="cf">for</span> qual <span class="kw">in</span> all_qual_cols:</span>
+<span id="cb7-16"><a href="#cb7-16"></a>    qual_cols <span class="op">=</span> [col <span class="cf">for</span> col <span class="kw">in</span> X_train.columns <span class="cf">if</span> qual <span class="kw">in</span> col]</span>
+<span id="cb7-17"><a href="#cb7-17"></a>    <span class="cf">for</span> pair <span class="kw">in</span> combinations(all_quant_cols, <span class="dv">2</span>):</span>
+<span id="cb7-18"><a href="#cb7-18"></a>        cols <span class="op">=</span> <span class="bu">list</span>(pair) <span class="op">+</span> qual_cols</span>
+<span id="cb7-19"><a href="#cb7-19"></a>        </span>
+<span id="cb7-20"><a href="#cb7-20"></a>        <span class="co"># Training on Logistic Regression</span></span>
+<span id="cb7-21"><a href="#cb7-21"></a>        LR <span class="op">=</span> LogisticRegression()</span>
+<span id="cb7-22"><a href="#cb7-22"></a>        LR.fit(X_train[cols], y_train)</span>
+<span id="cb7-23"><a href="#cb7-23"></a>        lr_score <span class="op">=</span> LR.score(X_train[cols], y_train)</span>
+<span id="cb7-24"><a href="#cb7-24"></a></span>
+<span id="cb7-25"><a href="#cb7-25"></a>        <span class="co"># Updating the best score and columns for Logistic Regression</span></span>
+<span id="cb7-26"><a href="#cb7-26"></a>        <span class="cf">if</span> lr_score <span class="op">&gt;</span> best_score_LR:</span>
+<span id="cb7-27"><a href="#cb7-27"></a>            best_cols_LR <span class="op">=</span> cols</span>
+<span id="cb7-28"><a href="#cb7-28"></a>            best_score_LR <span class="op">=</span> lr_score</span>
+<span id="cb7-29"><a href="#cb7-29"></a>            best_LR <span class="op">=</span> LR</span>
+<span id="cb7-30"><a href="#cb7-30"></a></span>
+<span id="cb7-31"><a href="#cb7-31"></a>        <span class="co"># Training on K-nearest Neighbour Classifier</span></span>
+<span id="cb7-32"><a href="#cb7-32"></a>        KNN <span class="op">=</span> KNeighborsClassifier()</span>
+<span id="cb7-33"><a href="#cb7-33"></a>        KNN.fit(X_train[cols], y_train)</span>
+<span id="cb7-34"><a href="#cb7-34"></a>        knn_score <span class="op">=</span> KNN.score(X_train[cols], y_train)</span>
+<span id="cb7-35"><a href="#cb7-35"></a></span>
+<span id="cb7-36"><a href="#cb7-36"></a>        <span class="co"># Updating the best score and columns for k-Nearest Neighbors Classifier</span></span>
+<span id="cb7-37"><a href="#cb7-37"></a>        <span class="cf">if</span> knn_score <span class="op">&gt;</span> best_score_KNN:</span>
+<span id="cb7-38"><a href="#cb7-38"></a>            best_cols_KNN <span class="op">=</span> cols</span>
+<span id="cb7-39"><a href="#cb7-39"></a>            best_score_KNN <span class="op">=</span> knn_score</span>
+<span id="cb7-40"><a href="#cb7-40"></a>            best_KNN <span class="op">=</span> KNN</span>
+<span id="cb7-41"><a href="#cb7-41"></a>        </span>
+<span id="cb7-42"><a href="#cb7-42"></a>        <span class="co"># Training on Random Forest Classifier</span></span>
+<span id="cb7-43"><a href="#cb7-43"></a>        RF <span class="op">=</span> RandomForestClassifier(max_depth<span class="op">=</span><span class="dv">3</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb7-44"><a href="#cb7-44"></a>        RF.fit(X_train[cols], y_train)</span>
+<span id="cb7-45"><a href="#cb7-45"></a>        rf_score <span class="op">=</span> RF.score(X_train[cols], y_train)</span>
+<span id="cb7-46"><a href="#cb7-46"></a></span>
+<span id="cb7-47"><a href="#cb7-47"></a>        <span class="co"># Updating the best score and columns for Random Forest Classifier</span></span>
+<span id="cb7-48"><a href="#cb7-48"></a>        <span class="cf">if</span> rf_score <span class="op">&gt;</span> best_score_RF:</span>
+<span id="cb7-49"><a href="#cb7-49"></a>            best_cols_RF <span class="op">=</span> cols</span>
+<span id="cb7-50"><a href="#cb7-50"></a>            best_score_RF <span class="op">=</span> rf_score</span>
+<span id="cb7-51"><a href="#cb7-51"></a>            best_RF <span class="op">=</span> RF</span>
+<span id="cb7-52"><a href="#cb7-52"></a></span>
+<span id="cb7-53"><a href="#cb7-53"></a>        <span class="co"># Training on Decision Tree Classifier</span></span>
+<span id="cb7-54"><a href="#cb7-54"></a>        DT <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb7-55"><a href="#cb7-55"></a>        DT.fit(X_train[cols], y_train)</span>
+<span id="cb7-56"><a href="#cb7-56"></a>        dt_score <span class="op">=</span> DT.score(X_train[cols], y_train)</span>
+<span id="cb7-57"><a href="#cb7-57"></a></span>
+<span id="cb7-58"><a href="#cb7-58"></a>        <span class="co"># Updating the best score and columns for Decision Tree Classifier</span></span>
+<span id="cb7-59"><a href="#cb7-59"></a>        <span class="cf">if</span> dt_score <span class="op">&gt;</span> best_score_DT:</span>
+<span id="cb7-60"><a href="#cb7-60"></a>            best_cols_DT <span class="op">=</span> cols</span>
+<span id="cb7-61"><a href="#cb7-61"></a>            best_score_DT <span class="op">=</span> dt_score</span>
+<span id="cb7-62"><a href="#cb7-62"></a>            best_DT <span class="op">=</span> DT</span>
+<span id="cb7-63"><a href="#cb7-63"></a></span>
+<span id="cb7-64"><a href="#cb7-64"></a><span class="bu">print</span>(<span class="st">"Best 3 columns for LR: "</span> <span class="op">+</span> <span class="bu">str</span>(best_cols_LR))</span>
+<span id="cb7-65"><a href="#cb7-65"></a><span class="bu">print</span>(<span class="st">"Best 3 columns for KNN: "</span> <span class="op">+</span> <span class="bu">str</span>(best_cols_KNN))</span>
+<span id="cb7-66"><a href="#cb7-66"></a><span class="bu">print</span>(<span class="st">"Best 3 columns for RF: "</span> <span class="op">+</span> <span class="bu">str</span>(best_cols_RF))</span>
+<span id="cb7-67"><a href="#cb7-67"></a><span class="bu">print</span>(<span class="st">"Best 3 columns for DT: "</span> <span class="op">+</span> <span class="bu">str</span>(best_cols_DT))</span>
+<span id="cb7-68"><a href="#cb7-68"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Best 3 columns for LR: ['Culmen Length (mm)', 'Culmen Depth (mm)', 'Island_Biscoe', 'Island_Dream', 'Island_Torgersen']
 Best 3 columns for KNN: ['Culmen Length (mm)', 'Culmen Depth (mm)', 'Sex_FEMALE', 'Sex_MALE']
@@ -512,24 +523,27 @@ Best 3 columns for DT: ['Culmen Length (mm)', 'Culmen Depth (mm)', 'Island_Bisco
 </div>
 <p>In this section, I used four Sckit learn’s machine learning models- logistic regression, k-nearest neighbor, random forest, and decision tree classifiers- to find the 3 combination of features that resulted in the highest accuracy scores. The accuracy of each combination of three features was then compared to find the combination that resulted in the highest accuracy score.</p>
 <div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the test data</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>test_url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/middlebury-csci-0451/CSCI-0451/main/data/palmer-penguins/test.csv"</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> pd.read_csv(test_url)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>X_test, y_test <span class="op">=</span> prepare_data(test)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate the performance of each model on the test data</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>test_score_LR <span class="op">=</span>  best_LR.score(X_test[best_cols_LR], y_test)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>test_score_KNN <span class="op">=</span> best_KNN.score(X_test[best_cols_KNN], y_test)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>test_score_RF <span class="op">=</span> best_RF.score(X_test[best_cols_RF], y_test)</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>test_score_DT <span class="op">=</span> best_DT.score(X_test[best_cols_DT], y_test)</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the test scores</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test score for LR: "</span> <span class="op">+</span> <span class="bu">str</span>(test_score_LR))</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test score for KNN: "</span> <span class="op">+</span> <span class="bu">str</span>(test_score_KNN))</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test score for RF: "</span> <span class="op">+</span> <span class="bu">str</span>(test_score_RF))</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test score for DT: "</span> <span class="op">+</span> <span class="bu">str</span>(test_score_DT))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Prepare the test data</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>test_url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/middlebury-csci-0451/CSCI-0451/main/data/palmer-penguins/test.csv"</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a></span>
+<span id="cb9-5"><a href="#cb9-5"></a>test <span class="op">=</span> pd.read_csv(test_url)</span>
+<span id="cb9-6"><a href="#cb9-6"></a>X_test, y_test <span class="op">=</span> prepare_data(test)</span>
+<span id="cb9-7"><a href="#cb9-7"></a></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="co"># Evaluate the performance of each model on the test data</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a>test_score_LR <span class="op">=</span>  best_LR.score(X_test[best_cols_LR], y_test)</span>
+<span id="cb9-10"><a href="#cb9-10"></a>test_score_KNN <span class="op">=</span> best_KNN.score(X_test[best_cols_KNN], y_test)</span>
+<span id="cb9-11"><a href="#cb9-11"></a>test_score_RF <span class="op">=</span> best_RF.score(X_test[best_cols_RF], y_test)</span>
+<span id="cb9-12"><a href="#cb9-12"></a>test_score_DT <span class="op">=</span> best_DT.score(X_test[best_cols_DT], y_test)</span>
+<span id="cb9-13"><a href="#cb9-13"></a></span>
+<span id="cb9-14"><a href="#cb9-14"></a><span class="co"># Print the test scores</span></span>
+<span id="cb9-15"><a href="#cb9-15"></a><span class="bu">print</span>(<span class="st">"Test score for LR: "</span> <span class="op">+</span> <span class="bu">str</span>(test_score_LR))</span>
+<span id="cb9-16"><a href="#cb9-16"></a><span class="bu">print</span>(<span class="st">"Test score for KNN: "</span> <span class="op">+</span> <span class="bu">str</span>(test_score_KNN))</span>
+<span id="cb9-17"><a href="#cb9-17"></a><span class="bu">print</span>(<span class="st">"Test score for RF: "</span> <span class="op">+</span> <span class="bu">str</span>(test_score_RF))</span>
+<span id="cb9-18"><a href="#cb9-18"></a><span class="bu">print</span>(<span class="st">"Test score for DT: "</span> <span class="op">+</span> <span class="bu">str</span>(test_score_DT))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Test score for LR: 0.9852941176470589
 Test score for KNN: 0.9705882352941176
@@ -539,82 +553,97 @@ Test score for DT: 0.9852941176470589</code></pre>
 </div>
 <p>Our trained models were not able to achieve a 100% accuracy score in the test data. However, we identify that Logistic regression and decision tree yeild the best accuracy scored on classifying penguins. MOving forwards we will consider both Logistic regression and decision tree to be the best model for classifying penguins</p>
 <div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_regions(model, X, y):</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> X[X.columns[<span class="dv">0</span>]]</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    x1 <span class="op">=</span> X[X.columns[<span class="dv">1</span>]]</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    qual_features <span class="op">=</span> X.columns[<span class="dv">2</span>:]</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    fig, axarr <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="bu">len</span>(qual_features), figsize <span class="op">=</span> (<span class="dv">7</span>, <span class="dv">3</span>))</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create a grid</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    grid_x <span class="op">=</span> np.linspace(x0.<span class="bu">min</span>(),x0.<span class="bu">max</span>(),<span class="dv">501</span>)</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    grid_y <span class="op">=</span> np.linspace(x1.<span class="bu">min</span>(),x1.<span class="bu">max</span>(),<span class="dv">501</span>)</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    xx, yy <span class="op">=</span> np.meshgrid(grid_x, grid_y)</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    XX <span class="op">=</span> xx.ravel()</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    YY <span class="op">=</span> yy.ravel()</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(qual_features)):</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>      XY <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>          X.columns[<span class="dv">0</span>] : XX,</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>          X.columns[<span class="dv">1</span>] : YY</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>      })</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> j <span class="kw">in</span> qual_features:</span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>        XY[j] <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>      XY[qual_features[i]] <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>      p <span class="op">=</span> model.predict(XY)</span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>      p <span class="op">=</span> p.reshape(xx.shape)</span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>      <span class="co"># use contour plot to visualize the predictions</span></span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>      axarr[i].contourf(xx, yy, p, cmap <span class="op">=</span> <span class="st">"jet"</span>, alpha <span class="op">=</span> <span class="fl">0.2</span>, vmin <span class="op">=</span> <span class="dv">0</span>, vmax <span class="op">=</span> <span class="dv">2</span>)</span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>      ix <span class="op">=</span> X[qual_features[i]] <span class="op">==</span> <span class="dv">1</span></span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>      <span class="co"># plot the data</span></span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>      axarr[i].scatter(x0[ix], x1[ix], c <span class="op">=</span> y[ix], cmap <span class="op">=</span> <span class="st">"jet"</span>, vmin <span class="op">=</span> <span class="dv">0</span>, vmax <span class="op">=</span> <span class="dv">2</span>)</span>
-<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>      axarr[i].<span class="bu">set</span>(xlabel <span class="op">=</span> X.columns[<span class="dv">0</span>], </span>
-<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>            ylabel  <span class="op">=</span> X.columns[<span class="dv">1</span>])</span>
-<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>      patches <span class="op">=</span> []</span>
-<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> color, spec <span class="kw">in</span> <span class="bu">zip</span>([<span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"blue"</span>], [<span class="st">"Adelie"</span>, <span class="st">"Chinstrap"</span>, <span class="st">"Gentoo"</span>]):</span>
-<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>        patches.append(Patch(color <span class="op">=</span> color, label <span class="op">=</span> spec))</span>
-<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>      plt.legend(title <span class="op">=</span> <span class="st">"Species"</span>, handles <span class="op">=</span> patches, loc <span class="op">=</span> <span class="st">"best"</span>)</span>
-<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>      plt.tight_layout()</span>
-<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>      </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-4"><a href="#cb11-4"></a></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="kw">def</span> plot_regions(model, X, y):</span>
+<span id="cb11-6"><a href="#cb11-6"></a>    </span>
+<span id="cb11-7"><a href="#cb11-7"></a>    x0 <span class="op">=</span> X[X.columns[<span class="dv">0</span>]]</span>
+<span id="cb11-8"><a href="#cb11-8"></a>    x1 <span class="op">=</span> X[X.columns[<span class="dv">1</span>]]</span>
+<span id="cb11-9"><a href="#cb11-9"></a>    qual_features <span class="op">=</span> X.columns[<span class="dv">2</span>:]</span>
+<span id="cb11-10"><a href="#cb11-10"></a>    </span>
+<span id="cb11-11"><a href="#cb11-11"></a>    fig, axarr <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="bu">len</span>(qual_features), figsize <span class="op">=</span> (<span class="dv">7</span>, <span class="dv">3</span>))</span>
+<span id="cb11-12"><a href="#cb11-12"></a></span>
+<span id="cb11-13"><a href="#cb11-13"></a>    <span class="co"># create a grid</span></span>
+<span id="cb11-14"><a href="#cb11-14"></a>    grid_x <span class="op">=</span> np.linspace(x0.<span class="bu">min</span>(),x0.<span class="bu">max</span>(),<span class="dv">501</span>)</span>
+<span id="cb11-15"><a href="#cb11-15"></a>    grid_y <span class="op">=</span> np.linspace(x1.<span class="bu">min</span>(),x1.<span class="bu">max</span>(),<span class="dv">501</span>)</span>
+<span id="cb11-16"><a href="#cb11-16"></a>    xx, yy <span class="op">=</span> np.meshgrid(grid_x, grid_y)</span>
+<span id="cb11-17"><a href="#cb11-17"></a>    </span>
+<span id="cb11-18"><a href="#cb11-18"></a>    XX <span class="op">=</span> xx.ravel()</span>
+<span id="cb11-19"><a href="#cb11-19"></a>    YY <span class="op">=</span> yy.ravel()</span>
+<span id="cb11-20"><a href="#cb11-20"></a></span>
+<span id="cb11-21"><a href="#cb11-21"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(qual_features)):</span>
+<span id="cb11-22"><a href="#cb11-22"></a>      XY <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb11-23"><a href="#cb11-23"></a>          X.columns[<span class="dv">0</span>] : XX,</span>
+<span id="cb11-24"><a href="#cb11-24"></a>          X.columns[<span class="dv">1</span>] : YY</span>
+<span id="cb11-25"><a href="#cb11-25"></a>      })</span>
+<span id="cb11-26"><a href="#cb11-26"></a></span>
+<span id="cb11-27"><a href="#cb11-27"></a>      <span class="cf">for</span> j <span class="kw">in</span> qual_features:</span>
+<span id="cb11-28"><a href="#cb11-28"></a>        XY[j] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb11-29"><a href="#cb11-29"></a></span>
+<span id="cb11-30"><a href="#cb11-30"></a>      XY[qual_features[i]] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb11-31"><a href="#cb11-31"></a></span>
+<span id="cb11-32"><a href="#cb11-32"></a>      p <span class="op">=</span> model.predict(XY)</span>
+<span id="cb11-33"><a href="#cb11-33"></a>      p <span class="op">=</span> p.reshape(xx.shape)</span>
+<span id="cb11-34"><a href="#cb11-34"></a>      </span>
+<span id="cb11-35"><a href="#cb11-35"></a>      </span>
+<span id="cb11-36"><a href="#cb11-36"></a>      <span class="co"># use contour plot to visualize the predictions</span></span>
+<span id="cb11-37"><a href="#cb11-37"></a>      axarr[i].contourf(xx, yy, p, cmap <span class="op">=</span> <span class="st">"jet"</span>, alpha <span class="op">=</span> <span class="fl">0.2</span>, vmin <span class="op">=</span> <span class="dv">0</span>, vmax <span class="op">=</span> <span class="dv">2</span>)</span>
+<span id="cb11-38"><a href="#cb11-38"></a>      </span>
+<span id="cb11-39"><a href="#cb11-39"></a>      ix <span class="op">=</span> X[qual_features[i]] <span class="op">==</span> <span class="dv">1</span></span>
+<span id="cb11-40"><a href="#cb11-40"></a>      <span class="co"># plot the data</span></span>
+<span id="cb11-41"><a href="#cb11-41"></a>      axarr[i].scatter(x0[ix], x1[ix], c <span class="op">=</span> y[ix], cmap <span class="op">=</span> <span class="st">"jet"</span>, vmin <span class="op">=</span> <span class="dv">0</span>, vmax <span class="op">=</span> <span class="dv">2</span>)</span>
+<span id="cb11-42"><a href="#cb11-42"></a>      </span>
+<span id="cb11-43"><a href="#cb11-43"></a>      axarr[i].<span class="bu">set</span>(xlabel <span class="op">=</span> X.columns[<span class="dv">0</span>], </span>
+<span id="cb11-44"><a href="#cb11-44"></a>            ylabel  <span class="op">=</span> X.columns[<span class="dv">1</span>])</span>
+<span id="cb11-45"><a href="#cb11-45"></a>      </span>
+<span id="cb11-46"><a href="#cb11-46"></a>      patches <span class="op">=</span> []</span>
+<span id="cb11-47"><a href="#cb11-47"></a>      <span class="cf">for</span> color, spec <span class="kw">in</span> <span class="bu">zip</span>([<span class="st">"red"</span>, <span class="st">"green"</span>, <span class="st">"blue"</span>], [<span class="st">"Adelie"</span>, <span class="st">"Chinstrap"</span>, <span class="st">"Gentoo"</span>]):</span>
+<span id="cb11-48"><a href="#cb11-48"></a>        patches.append(Patch(color <span class="op">=</span> color, label <span class="op">=</span> spec))</span>
+<span id="cb11-49"><a href="#cb11-49"></a></span>
+<span id="cb11-50"><a href="#cb11-50"></a>      plt.legend(title <span class="op">=</span> <span class="st">"Species"</span>, handles <span class="op">=</span> patches, loc <span class="op">=</span> <span class="st">"best"</span>)</span>
+<span id="cb11-51"><a href="#cb11-51"></a>      </span>
+<span id="cb11-52"><a href="#cb11-52"></a>      plt.tight_layout()</span>
+<span id="cb11-53"><a href="#cb11-53"></a></span>
+<span id="cb11-54"><a href="#cb11-54"></a>      </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>plot_regions(best_LR, X_test[best_cols_LR], y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a></span>
+<span id="cb12-2"><a href="#cb12-2"></a>plot_regions(best_LR, X_test[best_cols_LR], y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>plot_regions(best_DT, X_test[best_cols_DT], y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>plot_regions(best_DT, X_test[best_cols_DT], y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>plot_regions(best_KNN, X_test[best_cols_KNN], y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>plot_regions(best_KNN, X_test[best_cols_KNN], y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>plot_regions(best_RF, X_test[best_cols_RF], y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>plot_regions(best_RF, X_test[best_cols_RF], y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
 </div>
@@ -672,6 +701,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
   function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
@@ -723,6 +803,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© 2023 Anweshan Adhikari</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
 
 
 

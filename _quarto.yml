@@ -1,26 +1,34 @@
 project:
-  type: website
-  output-dir: docs
+    type: website
+    output-dir: docs
 
 website:
-  title: "Anweshan's Blog"
-  navbar:
-    background: "#112a39"
-    right:
-      - about.qmd
-      - icon: github
-        href: https://github.com/
-      - icon: twitter
-        href: https://twitter.com
+    title: "Anweshan's Blog"
+    navbar:
+        background: "#FFFFFF" # White navbar instead of blue
+        right:
+            - about.qmd
+            - icon: github
+              href: https://github.com/
+            - icon: twitter
+              href: https://twitter.com
+    page-footer:
+        background: "#F8F9FA"
+        left: "© 2023 Anweshan Adhikari"
+        right:
+            - icon: github
+              href: https://github.com/
+            - icon: twitter
+              href: https://twitter.com
 
 format:
-  html:
-    title-block-banner: img/landscape.png
-    title-block-banner-color: white
-    theme: cosmo
-    css: styles.css
-
-
-
-
-
+    html:
+        theme:
+            light: [cosmo, custom.scss]
+        css: styles.css
+        toc: true
+        include-in-header:
+            text: |
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">

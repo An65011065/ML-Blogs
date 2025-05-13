@@ -1,13 +1,18 @@
 ---
-title: "Machine Learning"
+title: ""
 listing:
   contents: posts
-  sort: "date desc"
-  type: default
+  sort: "order des"  # Sort by order field in ascending order
+  type: grid
+  grid-columns: 3
+  image-height: 250px
   categories: true
   sort-ui: false
   filter-ui: false
 page-layout: full
 ---
 
- 
+<div class="welcome-section">
+  <h2>CS Explorations</h2>
+  <p>A collection of explorations, implementations, and insights across data science, programming, and algorithms.</p>
+</div>

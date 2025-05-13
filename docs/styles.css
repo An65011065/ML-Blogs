@@ -1,1 +1,55 @@
-/* css styles */
+/* Remove machine learning blog title from banner */
+.quarto-title-banner h1 {
+    display: none;
+}
+
+/* Better code formatting */
+pre {
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    padding: 1rem;
+    font-size: 0.9rem;
+}
+
+code {
+    color: #e83e8c;
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
+}
+
+/* Post metadata styling */
+.quarto-title-meta {
+    font-family: "Inter", sans-serif;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Post contents */
+.content p {
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    font-family: "Georgia", serif;
+    font-size: 1.1rem;
+}
+
+/* Navigation tweaks */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    padding: 0.8rem 1rem;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.quarto-grid-item .listing-author,
+.listing-author {
+    text-transform: none !important;
+}
+
+.listing-author {
+    font-weight: normal;
+    font-size: 0.9rem;
+    color: #666;
+}

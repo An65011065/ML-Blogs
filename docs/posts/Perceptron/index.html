@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Anweshan Adhikari">
-<meta name="dcterms.date" content="2023-03-10">
 <meta name="description" content="A simple implementation of Perceptron Algorithm.">
 
 <title>Anweshan’s Blog - Perceptron Algorithm</title>
@@ -124,19 +123,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-submit-button-title": "Submit"
   }
 }</script>
-<style>
-    .quarto-title-block .quarto-title-banner {
-      color: white;
-background-image: url(../../img/landscape.png);
-background-size: cover;
-    }
-    </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -172,47 +167,51 @@ background-size: cover;
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">Perceptron Algorithm</h1>
-                  <div>
-        <div class="description">
-          A simple implementation of Perceptron Algorithm.
-        </div>
-      </div>
-                </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta">
-
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p>Anweshan Adhikari </p>
-            </div>
-    </div>
-      
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">March 10, 2023</p>
-      </div>
-    </div>
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-perceptron-algorithm" id="toc-introduction-to-perceptron-algorithm" class="nav-link active" data-scroll-target="#introduction-to-perceptron-algorithm">Introduction to Perceptron Algorithm</a></li>
+  <li><a href="#unpacking-the-perceptron-algorithm" id="toc-unpacking-the-perceptron-algorithm" class="nav-link" data-scroll-target="#unpacking-the-perceptron-algorithm">Unpacking the Perceptron Algorithm</a></li>
+  <li><a href="#experiment-1" id="toc-experiment-1" class="nav-link" data-scroll-target="#experiment-1">Experiment 1:</a></li>
+  <li><a href="#experiment-2" id="toc-experiment-2" class="nav-link" data-scroll-target="#experiment-2">Experiment 2:</a></li>
+  <li><a href="#time-complexity" id="toc-time-complexity" class="nav-link" data-scroll-target="#time-complexity">Time Complexity</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Perceptron Algorithm</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
+</div>
+
+<div>
+  <div class="description">
+    A simple implementation of Perceptron Algorithm.
+  </div>
+</div>
 
 
+<div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Anweshan Adhikari </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
 
 <p>Here is the link to my source code: <a href="https://github.com/An65011065/An65011065.github.io/blob/main/posts/Perceptron/">Perceptron.py</a></p>
 <section id="introduction-to-perceptron-algorithm" class="level1">
@@ -237,35 +236,38 @@ background-size: cover;
 <p><strong>Implementing the Perceptron Algorithm on Linearly Separable Data</strong></p>
 <p>In the graphs below, the perceptron algorithm is used to find a line that separates a linearly separable dataset with two features. The algorithm iteratively updates the weight vector until all data points are classified correctly. Running the perceptron.fit function on the dataset results in the weight vector converging to a value that defines this separating line. The resulting graphs will visually demonstrate the success of the algorithm in separating the data points.</p>
 <div class="cell" data-execution_count="99">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Perceptron <span class="im">import</span> Perceptron</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_blobs</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#np.random.seed(12345)</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> draw_line(w, x_min, x_max):</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> np.linspace(x_min, x_max, <span class="dv">101</span>)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> <span class="op">-</span>(w[<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span> w[<span class="dv">2</span>])<span class="op">/</span>w[<span class="dv">1</span>]</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  plt.plot(x, y, color <span class="op">=</span> <span class="st">"black"</span>)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>p_features <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_blobs(n_samples <span class="op">=</span> <span class="dv">100</span>, n_features <span class="op">=</span> p_features <span class="op">-</span> <span class="dv">1</span>, centers <span class="op">=</span> [(<span class="op">-</span><span class="fl">1.7</span>, <span class="op">-</span><span class="fl">1.7</span>), (<span class="fl">1.7</span>, <span class="fl">1.7</span>)])</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>X_ <span class="op">=</span> np.append(X, np.ones((X.shape[<span class="dv">0</span>], <span class="dv">1</span>)), <span class="dv">1</span>)</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> Perceptron()</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>p.fit(X, y, max_steps <span class="op">=</span> <span class="dv">1000</span>)</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c <span class="op">=</span> y)</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> draw_line(p.w, <span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Feature 1"</span>)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Feature 2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="im">from</span> Perceptron <span class="im">import</span> Perceptron</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb3-7"><a href="#cb3-7"></a></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_blobs</span>
+<span id="cb3-9"><a href="#cb3-9"></a></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#np.random.seed(12345)</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="kw">def</span> draw_line(w, x_min, x_max):</span>
+<span id="cb3-13"><a href="#cb3-13"></a>  x <span class="op">=</span> np.linspace(x_min, x_max, <span class="dv">101</span>)</span>
+<span id="cb3-14"><a href="#cb3-14"></a>  y <span class="op">=</span> <span class="op">-</span>(w[<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span> w[<span class="dv">2</span>])<span class="op">/</span>w[<span class="dv">1</span>]</span>
+<span id="cb3-15"><a href="#cb3-15"></a>  plt.plot(x, y, color <span class="op">=</span> <span class="st">"black"</span>)</span>
+<span id="cb3-16"><a href="#cb3-16"></a></span>
+<span id="cb3-17"><a href="#cb3-17"></a>n <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a>p_features <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a></span>
+<span id="cb3-20"><a href="#cb3-20"></a>X, y <span class="op">=</span> make_blobs(n_samples <span class="op">=</span> <span class="dv">100</span>, n_features <span class="op">=</span> p_features <span class="op">-</span> <span class="dv">1</span>, centers <span class="op">=</span> [(<span class="op">-</span><span class="fl">1.7</span>, <span class="op">-</span><span class="fl">1.7</span>), (<span class="fl">1.7</span>, <span class="fl">1.7</span>)])</span>
+<span id="cb3-21"><a href="#cb3-21"></a></span>
+<span id="cb3-22"><a href="#cb3-22"></a>X_ <span class="op">=</span> np.append(X, np.ones((X.shape[<span class="dv">0</span>], <span class="dv">1</span>)), <span class="dv">1</span>)</span>
+<span id="cb3-23"><a href="#cb3-23"></a>p <span class="op">=</span> Perceptron()</span>
+<span id="cb3-24"><a href="#cb3-24"></a>p.fit(X, y, max_steps <span class="op">=</span> <span class="dv">1000</span>)</span>
+<span id="cb3-25"><a href="#cb3-25"></a></span>
+<span id="cb3-26"><a href="#cb3-26"></a>fig <span class="op">=</span> plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c <span class="op">=</span> y)</span>
+<span id="cb3-27"><a href="#cb3-27"></a>fig <span class="op">=</span> draw_line(p.w, <span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb3-28"><a href="#cb3-28"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Feature 1"</span>)</span>
+<span id="cb3-29"><a href="#cb3-29"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Feature 2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-2-output-1.png" class="img-fluid"></p>
 </div>
@@ -273,8 +275,11 @@ background-size: cover;
 <p>The decision boundary is the line which separates two classes of data points. In this case, the Perceptron algorithm has successfully found a line that separates the data points into two distinct classes. Hence the perceptron algorithm is succefull on data with two features.</p>
 <p>Also the accuracy of the algorithm was 1.0 and we can look over the final 10 accuracies until the weight vector converged to a value that defines this separating line.</p>
 <div class="cell" data-execution_count="98">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"The accuracyscore is "</span>, p.score(X,y))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"The final 10 accuracy scores were: "</span>,p.history[<span class="op">-</span><span class="dv">10</span>:]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="bu">print</span>(<span class="st">"The accuracyscore is "</span>, p.score(X,y))</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="bu">print</span>(<span class="st">"The final 10 accuracy scores were: "</span>,p.history[<span class="op">-</span><span class="dv">10</span>:]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>The accuracyscore is  1.0
 The final 10 accuracy scores were:  [0.98, 0.98, 0.98, 0.98, 0.98, 0.98, 0.98, 0.98, 1.0, 1.0]</code></pre>
@@ -282,9 +287,12 @@ The final 10 accuracy scores were:  [0.98, 0.98, 0.98, 0.98, 0.98, 0.98, 0.98, 0
 </div>
 <p>The graph below plots the accuracy scores from the first iteration until the point of converge:</p>
 <div class="cell" data-execution_count="35">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plt.plot(p.history)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Iteration"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Accuracy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>plt.plot(p.history)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Iteration"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Accuracy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-4-output-1.png" class="img-fluid"></p>
 </div>
@@ -294,40 +302,43 @@ The final 10 accuracy scores were:  [0.98, 0.98, 0.98, 0.98, 0.98, 0.98, 0.98, 0
 <h1>Experiment 2:</h1>
 <p><strong>Implementing the Perceptron Algorithm on a non-Linearly Separable Data</strong></p>
 <div class="cell" data-execution_count="73">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> Perceptron <span class="im">import</span> Perceptron</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_circles</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">12345</span>)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100</span> </span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>p_features <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_blobs(n_samples <span class="op">=</span> <span class="dv">100</span>, n_features <span class="op">=</span> p_features <span class="op">-</span> <span class="dv">1</span>, centers <span class="op">=</span> [(<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>), (<span class="dv">1</span>, <span class="dv">1</span>)])</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c <span class="op">=</span> y) </span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Feature 1"</span>) </span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Feature 2"</span>)</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> Perceptron()</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>p.fit(X, y, max_steps <span class="op">=</span> <span class="dv">1000</span>)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> draw_line(w, x_min, x_max):</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.linspace(x_min, x_max, <span class="dv">101</span>)</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="op">-</span>(w[<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span> w[<span class="dv">2</span>])<span class="op">/</span>w[<span class="dv">1</span>]</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    plt.plot(x, y, color <span class="op">=</span> <span class="st">"black"</span>)</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c <span class="op">=</span> y)</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> draw_line(p.w, <span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Feature 1"</span>)</span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Feature 2"</span>)</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Perceptron classifier's decision boundary on nonlinearly seperable data"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">from</span> Perceptron <span class="im">import</span> Perceptron</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="im">import</span> numpy <span class="im">as</span> np </span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="im">import</span> pandas <span class="im">as</span> pd </span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="im">import</span> seaborn <span class="im">as</span> sns </span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb7-6"><a href="#cb7-6"></a></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_circles</span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a>np.random.seed(<span class="dv">12345</span>)</span>
+<span id="cb7-10"><a href="#cb7-10"></a></span>
+<span id="cb7-11"><a href="#cb7-11"></a>n <span class="op">=</span> <span class="dv">100</span> </span>
+<span id="cb7-12"><a href="#cb7-12"></a>p_features <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a></span>
+<span id="cb7-14"><a href="#cb7-14"></a>X, y <span class="op">=</span> make_blobs(n_samples <span class="op">=</span> <span class="dv">100</span>, n_features <span class="op">=</span> p_features <span class="op">-</span> <span class="dv">1</span>, centers <span class="op">=</span> [(<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>), (<span class="dv">1</span>, <span class="dv">1</span>)])</span>
+<span id="cb7-15"><a href="#cb7-15"></a></span>
+<span id="cb7-16"><a href="#cb7-16"></a>fig <span class="op">=</span> plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c <span class="op">=</span> y) </span>
+<span id="cb7-17"><a href="#cb7-17"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Feature 1"</span>) </span>
+<span id="cb7-18"><a href="#cb7-18"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Feature 2"</span>)</span>
+<span id="cb7-19"><a href="#cb7-19"></a></span>
+<span id="cb7-20"><a href="#cb7-20"></a>p <span class="op">=</span> Perceptron()</span>
+<span id="cb7-21"><a href="#cb7-21"></a></span>
+<span id="cb7-22"><a href="#cb7-22"></a>p.fit(X, y, max_steps <span class="op">=</span> <span class="dv">1000</span>)</span>
+<span id="cb7-23"><a href="#cb7-23"></a></span>
+<span id="cb7-24"><a href="#cb7-24"></a><span class="kw">def</span> draw_line(w, x_min, x_max):</span>
+<span id="cb7-25"><a href="#cb7-25"></a>    x <span class="op">=</span> np.linspace(x_min, x_max, <span class="dv">101</span>)</span>
+<span id="cb7-26"><a href="#cb7-26"></a>    y <span class="op">=</span> <span class="op">-</span>(w[<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span> w[<span class="dv">2</span>])<span class="op">/</span>w[<span class="dv">1</span>]</span>
+<span id="cb7-27"><a href="#cb7-27"></a>    plt.plot(x, y, color <span class="op">=</span> <span class="st">"black"</span>)</span>
+<span id="cb7-28"><a href="#cb7-28"></a></span>
+<span id="cb7-29"><a href="#cb7-29"></a>fig <span class="op">=</span> plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c <span class="op">=</span> y)</span>
+<span id="cb7-30"><a href="#cb7-30"></a>fig <span class="op">=</span> draw_line(p.w, <span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb7-31"><a href="#cb7-31"></a></span>
+<span id="cb7-32"><a href="#cb7-32"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Feature 1"</span>)</span>
+<span id="cb7-33"><a href="#cb7-33"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Feature 2"</span>)</span>
+<span id="cb7-34"><a href="#cb7-34"></a>plt.title(<span class="st">"Perceptron classifier's decision boundary on nonlinearly seperable data"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="73">
 <pre><code>Text(0.5, 1.0, "Perceptron classifier's decision boundary on nonlinearly seperable data")</code></pre>
 </div>
@@ -337,8 +348,11 @@ The final 10 accuracy scores were:  [0.98, 0.98, 0.98, 0.98, 0.98, 0.98, 0.98, 0
 </div>
 <p>Based on the plot itself, it is obvious that the the weight vector found by the Perceptron algorithm did not converge to a straight line that can completely separate the two classes. Let’s check the final accuracy and the final 10 accuracy before the p.fit function reached the maximum number of steps.</p>
 <div class="cell" data-execution_count="74">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"The accuracyscore is "</span>, p.score(X,y))</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"The final 10 accuracy scores were: "</span>,p.history[<span class="op">-</span><span class="dv">10</span>:]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="bu">print</span>(<span class="st">"The accuracyscore is "</span>, p.score(X,y))</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="bu">print</span>(<span class="st">"The final 10 accuracy scores were: "</span>,p.history[<span class="op">-</span><span class="dv">10</span>:]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>The accuracyscore is  0.91
 The final 10 accuracy scores were:  [0.91, 0.91, 0.91, 0.91, 0.91, 0.91, 0.91, 0.91, 0.91, 0.91]</code></pre>
@@ -346,9 +360,12 @@ The final 10 accuracy scores were:  [0.91, 0.91, 0.91, 0.91, 0.91, 0.91, 0.91, 0
 </div>
 <p>Based on the results, it is evident that the p.fitfunction did not terminate due to achieving an accuracy of 1, but rather due to reaching the maximum number of iterations set at 1000. Hence, the perceptron algorithm fails to find a line to separate non-linearly separable data. Furthermore, the graph below- accuracy scores over iterations- shows that the algorithm failed to reach an accuracy score of 1 at any step during the iteration.</p>
 <div class="cell" data-execution_count="75">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plt.plot(p.history)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Iteration"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Accuracy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>plt.plot(p.history)</span>
+<span id="cb11-2"><a href="#cb11-2"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Iteration"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Accuracy"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
 </div>
@@ -410,6 +427,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
   function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
@@ -461,6 +529,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">© 2023 Anweshan Adhikari</div>   
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
 
 
 
